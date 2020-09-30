@@ -25,7 +25,7 @@ def readme():
 
 # Get the program version from another file.
 __version__ = ""
-exec(open('version.py').read())
+exec(open('mutAnalysis/version.py').read())
 
 setup(name='mutAnalysis',
       version=__version__,
