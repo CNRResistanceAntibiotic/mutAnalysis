@@ -15,7 +15,7 @@ not, see <http://www.gnu.org/licenses/>.
 """
 
 # Install setuptools if not already present.
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 def readme():
@@ -36,8 +36,7 @@ setup(name='mutanalysis',
       author='Aurélien Birer',
       author_email='abirer36@gmail.com',
       license='GPLv3',
-      #packages=["mutanalysis", "mutanalysis.database"],
-      packages=find_packages(),
+      packages=["mutanalysis", "database"],
       include_package_data=True,
       install_requires=['biopython', 'pandas'],
       entry_points={"console_scripts": ['mutanalysis = mutanalysis.mutAnalysis:run']},
