@@ -39,6 +39,6 @@ setup(name='mutAnalysis',
       packages=["mutAnalysis"],
       include_package_data=True,
       install_requires=['biopython', 'pandas'],
-      entry_points={"console_scripts": ['mutAnalysis = mutAnalysis.mapping:run']},
+      entry_points={"console_scripts": ['mutAnalysis = mutAnalysis.mutAnalysis:run']},
       zip_safe=False,
       python_requires='>=3.6')

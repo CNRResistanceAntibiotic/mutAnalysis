@@ -41,6 +41,8 @@ From: ubuntu:18.04
 	LC_MESSAGES=en_US.UTF-8
 	export LC_MESSAGES
 
+
+
 %post
 	export DEBIAN_FRONTEND=noninteractive
 
@@ -61,9 +63,11 @@ From: ubuntu:18.04
 	python3 -m pip install --upgrade pip
 	python3 -m pip install -U pip
 	python3 -m pip install 'setuptools==47.3.2'
-    	python3 -m pip install pandas
+	python3 -m pip install pandas
 	python3 -m pip install biopython
-
+	
+	export LC_CTYPE=en_US.UTF-8
+	export LANG=en_US.UTF-8	
 
 	python3 -m pip install git+https://github.com/CNRResistanceAntibiotic/mutAnalysis.git
 
