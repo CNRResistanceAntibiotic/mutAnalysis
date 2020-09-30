@@ -65,7 +65,7 @@ From: ubuntu:18.04
 	python3 -m pip install biopython
 
 
-	python3 -m pip install git+https://github.com/CNRResistanceAntibiotic/MentaLiST.git
+	python3 -m pip install git+https://github.com/CNRResistanceAntibiotic/mutAnalysis.git
 
 	# remove un-necessary packages
 	apt autoremove --purge --yes
