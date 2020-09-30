@@ -25,20 +25,20 @@ def readme():
 
 # Get the program version from another file.
 __version__ = ""
-exec(open('mutAnalysis/version.py').read())
+exec(open('mutanalysis/version.py').read())
 
-setup(name='mutAnalysis',
+setup(name='mutanalysis',
       version=__version__,
-      description='mutAnalysis: mutation analysis tool',
+      description='mutanalysis: mutation analysis tool',
       long_description=readme(),
       long_description_content_type='text/markdown',
       url='https://github.com/CNRResistanceAntibiotic/mutAnalysis',
       author='Aurélien Birer',
       author_email='abirer36@gmail.com',
       license='GPLv3',
-      packages=["mutAnalysis"],
+      packages=["mutanalysis"],
       include_package_data=True,
       install_requires=['biopython', 'pandas'],
-      entry_points={"console_scripts": ['mutAnalysis = mutAnalysis.mutAnalysis:run']},
+      entry_points={"console_scripts": ['mutanalysis = mutanalysis.mutAnalysis:run']},
       zip_safe=False,
       python_requires='>=3.6')

@@ -18,13 +18,13 @@ import os
 import re
 import shutil
 
-from mutAnalysis import mapping, mut2report
-from mutAnalysis import bam2count, utils
+from mutanalysis import mapping, bam2count, mut2report
+from mutanalysis.utils import read_mutation_database
 
 
 def main(args):
 
-    print("Version mutAnalysis: ", version())
+    print("Version mutanalysis: ", version())
 
     reads_1 = os.path.abspath(args.reads_1)
     reads_2 = os.path.abspath(args.reads_2)
@@ -54,7 +54,9 @@ def main(args):
 
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    database = os.path.join(os.path.dirname(dir_path), "database")
+    print(dir_path)
+
+    database = os.path.join(dir_path, "database")
     mutation_database = os.path.join(database, "mutations.tsv")
     sequence_file = os.path.join(database, "sequences.fasta")
 
@@ -71,7 +73,7 @@ def main(args):
 
     #########################################
 
-    mut_dict = utils.read_mutation_database(mutation_database)
+    mut_dict = read_mutation_database(mutation_database)
 
     ##################
 
@@ -138,13 +140,13 @@ def version():
 def run():
     global usage
 
-    usage = "readmapper [-1 fastq_R1_.fastq] [-2 fastq_R2_.fastq] [-wd work directory] [-i " \
+    usage = "mutanalysis [-1 fastq_R1_.fastq] [-2 fastq_R2_.fastq] [-wd work directory] [-i " \
             "initial of the user] <-F Overwrite output directory (Default=False)> "
 
     parser = argparse.ArgumentParser(
-        prog='mutAnalysis',
+        prog='mutanalysis',
         usage=usage,
-        description='mutAnalysis: count and report specific mutation - Version ' + version(),
+        description='mutanalysis: count and report specific mutation - Version ' + version(),
     )
 
     parser.add_argument('-1', '--R1', dest="reads_1", default='', help="Reads file R1")
@@ -157,7 +159,7 @@ def run():
                         help="Overwrite output directory")
     parser.add_argument('-v', '--verbose', dest="verbose", default="0",
                         help="log process to file. Options are 0 or 1  (default = 0 for no logging)")
-    parser.add_argument('-V', '--version', action='version', version='parse_rep_detection-' + version(),
+    parser.add_argument('-V', '--version', action='version', version='mutanalysis-' + version(),
                         help="Prints version number")
 
     args = parser.parse_args()
