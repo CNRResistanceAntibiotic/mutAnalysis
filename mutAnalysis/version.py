@@ -14,31 +14,4 @@ details. You should have received a copy of the GNU General Public License along
 not, see <http://www.gnu.org/licenses/>.
 """
 
-# Install setuptools if not already present.
-from setuptools import setup
-
-
-def readme():
-    with open('README.md') as f:
-        return f.read()
-
-
-# Get the program version from another file.
-__version__ = ""
-exec(open('mutAnalysis/version.py').read())
-
-setup(name='mutAnalysis',
-      version=__version__,
-      description='mutAnalysis: mutation analysis tool',
-      long_description=readme(),
-      long_description_content_type='text/markdown',
-      url='https://github.com/CNRResistanceAntibiotic/mutAnalysis',
-      author='Aurélien Birer',
-      author_email='abirer36@gmail.com',
-      license='GPLv3',
-      packages=["mutAnalysis"],
-      include_package_data=True,
-      install_requires=['biopython', 'pandas'],
-      entry_points={"console_scripts": ['mutAnalysis = mutAnalysis.mapping:run']},
-      zip_safe=False,
-      python_requires='>=3.6')
+__version__ = '0.0.1'
