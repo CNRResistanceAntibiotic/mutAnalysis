@@ -54,11 +54,8 @@ def main(args):
 
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    print(dir_path)
-
-    database = os.path.join(dir_path, "database")
-    mutation_database = os.path.join(database, "mutations.tsv")
-    sequence_file = os.path.join(database, "sequences.fasta")
+    mutation_database = os.path.join(dir_path, "mutations.tsv")
+    sequence_file = os.path.join(dir_path, "sequences.fasta")
 
     if not os.path.exists(wk_dir):
         os.makedirs(wk_dir)
