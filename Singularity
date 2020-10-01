@@ -16,7 +16,7 @@ From: ubuntu:18.04
 	Version v1.0
 
 %environment
-	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
+	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bwa:/usr/local/bam-readcount/bin:
 	# Set UTF8 for system
 	LANG=en_US.UTF-8
 	export LANG
@@ -57,6 +57,34 @@ From: ubuntu:18.04
 	echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
 
 	cd /usr/local
+
+	# Install Samtools
+	apt-get install -y bzip2 curl zlib1g-dev libncurses5-dev cmake
+
+	export SAMTOOLS_VERSION='1.3.1'
+
+	mkdir samtools
+	curl -fsSL https://github.com/samtools/samtools/releases/download/$SAMTOOLS_VERSION/samtools-$SAMTOOLS_VERSION.tar.bz2 | tar -jxC samtools --strip-components=1
+
+	cd samtools
+		./configure
+		make all all-htslib
+		make install install-htslib
+	cd ..
+
+	# Install BWA
+	git clone https://github.com/lh3/bwa.git
+	cd bwa
+		make
+	cd ..
+
+	# install bam-readcount
+	git clone https://github.com/genome/bam-readcount.git
+	cd bam-readcount
+		cmake ../bam-readcount
+		make
+	cd ..
+
 
 	# UPGRADE PIP
 	python3 -m pip install wheel

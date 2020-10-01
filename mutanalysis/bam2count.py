@@ -46,15 +46,15 @@ def bam_count(bam_file, fasta_ref, output_dir, q=0, b=0, feature_name='', site_f
     sample = os.path.basename(bam_file).split(".")[0]
     if feature_name == '' and site_file == '':
         out_file = os.path.join(output_dir, '{0}_raw.csv'.format(sample))
-        cmd = '$(which bam-readcount) -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file,
+        cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file,
                                                                                      out_file)
     elif feature_name != '' and site_file == '':
         out_file = os.path.join(output_dir, '{0}_{1}_raw.csv'.format(sample, feature_name))
-        cmd = '$(which bam-readcount) -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file,
+        cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file,
                                                                                      out_file)
     else:
         out_file = os.path.join(output_dir, '{0}_{1}_raw.csv'.format(sample, feature_name))
-        cmd = '$(which bam-readcount) -w 0 -q {0} -b {1} -i -l {2} -f {3} {4} > {5}'.format(q, b, site_file, fasta_ref,
+        cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -l {2} -f {3} {4} > {5}'.format(q, b, site_file, fasta_ref,
                                                                                       bam_file, out_file)
     if not os.path.exists(out_file) or force:
         process = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT).stdout.read()
