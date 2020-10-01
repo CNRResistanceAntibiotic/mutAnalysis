@@ -26,6 +26,8 @@ def report(work_dir, mutation, gene_name):
 
     final_result = os.path.join(work_dir, "final_result.tsv")
 
+    combinaison_final_dict = {}
+
     for file in os.listdir(work_dir):
         if "_count.csv" in file:
             path = os.path.join(work_dir, file)
@@ -97,21 +99,21 @@ def report(work_dir, mutation, gene_name):
                         combinaison_final_dict[comb] = depth
                     else:
                         continue
-
-    with open(final_result, "w") as output:
-        writer = csv.writer(output, delimiter="\t")
-        writer.writerow(["Gene", "Mutation", "Mean Depth", "Result", "S/R"])
-        for comb, depth in combinaison_final_dict.items():
-            pattern = re.compile('([a-zA-Z_-]+)*([0-9]*)([a-zA-Z_-]+)')
-            match = pattern.match(mutation)
-            if match:
-                acide_s = match.groups()[0]
-                acide_r = match.groups()[2]
-            dna = Seq(comb)
-            if dna.translate(table=11) == acide_s:
-                resu_type = "S"
-            elif dna.translate(table=11) == acide_r:
-                resu_type = "R"
-            else:
-                resu_type = "X"
-            writer.writerow([gene_name, mutation, median_ref_depth, "{0}(depth:{1};ratio{2}%)".format(comb, depth, int((depth/median_ref_depth)*100)), resu_type])
+    if combinaison_final_dict:
+        with open(final_result, "w") as output:
+            writer = csv.writer(output, delimiter="\t")
+            writer.writerow(["Gene", "Mutation", "Mean Depth", "Result", "S/R"])
+            for comb, depth in combinaison_final_dict.items():
+                pattern = re.compile('([a-zA-Z_-]+)*([0-9]*)([a-zA-Z_-]+)')
+                match = pattern.match(mutation)
+                if match:
+                    acide_s = match.groups()[0]
+                    acide_r = match.groups()[2]
+                dna = Seq(comb)
+                if dna.translate(table=11) == acide_s:
+                    resu_type = "S"
+                elif dna.translate(table=11) == acide_r:
+                    resu_type = "R"
+                else:
+                    resu_type = "X"
+                writer.writerow([gene_name, mutation, median_ref_depth, "{0}(depth:{1};ratio{2}%)".format(comb, depth, int((depth/median_ref_depth)*100)), resu_type])

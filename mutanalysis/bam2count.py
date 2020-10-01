@@ -46,16 +46,14 @@ def bam_count(bam_file, fasta_ref, output_dir, q=0, b=0, feature_name='', site_f
     sample = os.path.basename(bam_file).split(".")[0]
     if feature_name == '' and site_file == '':
         out_file = os.path.join(output_dir, '{0}_raw.csv'.format(sample))
-        cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file,
-                                                                                     out_file)
+        cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file, out_file)
     elif feature_name != '' and site_file == '':
         out_file = os.path.join(output_dir, '{0}_{1}_raw.csv'.format(sample, feature_name))
-        cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file,
-                                                                                     out_file)
+        cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -f {2} {3} > {4}'.format(q, b, fasta_ref, bam_file, out_file)
     else:
         out_file = os.path.join(output_dir, '{0}_{1}_raw.csv'.format(sample, feature_name))
         cmd = 'bam-readcount -w 0 -q {0} -b {1} -i -l {2} -f {3} {4} > {5}'.format(q, b, site_file, fasta_ref,
-                                                                                      bam_file, out_file)
+                                                                                   bam_file, out_file)
     if not os.path.exists(out_file) or force:
         process = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT).stdout.read()
         log_info = "Command line executed: {0}\n\n\n{1}".format(cmd, process.decode("utf-8"))
@@ -91,9 +89,7 @@ def bam_count_stats(bam_count_file, feature_name, header, output_dir, bam_file):
         ctgs = []
         result_stat = []
         result_data = []
-        start = 0
-        end = 0
-        base_nb = 0
+        start = end = base_nb = 0
 
         for line in count_f:
             line = line.strip().split('\t')
@@ -195,11 +191,8 @@ def bam_count_extract(bam_count_file, feature_name, header, output_dir, bam_file
 
 
 def main(wk_dir, sequence_file, position, feature_name="", stats=True, data=True):
-
     bam_file = os.path.join(wk_dir, 'sequence.bam')
-
     site_file = ""
-
     while feature_name == '' and position != '':
         # feature_name = raw_input('Enter a feature name for the position and validate by enter:\n')
         print("YOU NEED TO SELECT A FEATURE")
@@ -211,17 +204,15 @@ def main(wk_dir, sequence_file, position, feature_name="", stats=True, data=True
 
     bam_count_file = bam_count(bam_file, sequence_file, wk_dir, 0, 0, feature_name, site_file, force=False)
 
-    #if os.path.exists(site_file):
-    #    os.remove(site_file)
-
     header = 'base:count:avg_mapping_quality:avg_base_quality:avg_se_mapping_quality:num_plus_strand:num_minus_strand:' \
              'avg_pos_as_fraction:avg_num_mismatches_as_fraction:avg_sum_mismatch_qualities:num_q2_containing_reads:' \
              'avg_distance_to_q2_start_in_q2_reads:avg_clipped_length:avg_distance_to_effective_3p_end'
 
-    out_file_list = [bam_count_file]
-    if stats:
-        stat_file = bam_count_stats(bam_count_file, feature_name, header, wk_dir, bam_file)
-        out_file_list.append(stat_file)
-    if data:
-        data_file = bam_count_extract(bam_count_file, feature_name, header, wk_dir, bam_file)
-        out_file_list.append(data_file)
+    if os.stat(bam_count_file).st_size:
+        out_file_list = [bam_count_file]
+        if stats:
+            stat_file = bam_count_stats(bam_count_file, feature_name, header, wk_dir, bam_file)
+            out_file_list.append(stat_file)
+        if data:
+            data_file = bam_count_extract(bam_count_file, feature_name, header, wk_dir, bam_file)
+            out_file_list.append(data_file)
