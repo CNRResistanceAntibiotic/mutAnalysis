@@ -102,7 +102,7 @@ def report(work_dir, mutation, gene_name):
     if combinaison_final_dict:
         with open(final_result, "w") as output:
             writer = csv.writer(output, delimiter="\t")
-            writer.writerow(["Gene", "Mutation", "Mean Depth", "Result", "S/R"])
+            writer.writerow(["Gene", "Mutation", "Mean Depth", "Result", "Sensible/Resistant"])
             for comb, depth in combinaison_final_dict.items():
                 pattern = re.compile('([a-zA-Z_-]+)*([0-9]*)([a-zA-Z_-]+)')
                 match = pattern.match(mutation)
@@ -111,9 +111,9 @@ def report(work_dir, mutation, gene_name):
                     acide_r = match.groups()[2]
                 dna = Seq(comb)
                 if dna.translate(table=11) == acide_s:
-                    resu_type = "S"
+                    resu_type = "Sensible"
                 elif dna.translate(table=11) == acide_r:
-                    resu_type = "R"
+                    resu_type = "Resistant"
                 else:
                     resu_type = "X"
                 writer.writerow([gene_name, mutation, median_ref_depth, "{0}(depth:{1};ratio{2}%)".format(comb, depth, int((depth/median_ref_depth)*100)), resu_type])
